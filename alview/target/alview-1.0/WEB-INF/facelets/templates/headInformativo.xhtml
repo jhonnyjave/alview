@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:body>
+        <h:form id="fr">
+            <div class="barra" style="width: 100%">
+                <div align="center">
+                    <p:toolbar style="width: 99%;">
+                        <f:facet name="left" class="text-height:5px">  
+                            <h:panelGrid columns="5">
+                                <p:commandButton 
+                                    value="#{sessionState.idioma=='es'?'Change Languaje':'Cambiar Idioma'}"
+                                    action="#{menuUsuarioBean.actualizaMenu()}"
+                                    update="idioma,bandera"
+                                    ajax="false" rendered="false"/>
+                                <p:outputLabel value="Seleccione Idioma:" rendered="#{sessionState.idUsuarioLogin != null ? false : true}"/>
+                                <p:selectOneMenu id="idioma" value="#{sessionState.idioma}" style="width:150px" rendered="#{sessionState.idUsuarioLogin != null ? false : true}">
+                                    <f:selectItem itemLabel="Español" itemValue="es" />
+                                    <f:selectItem itemLabel="English" itemValue="en" />
+                                    <p:ajax event="change" listener="#{language.modificaidioma(e)}" update="@all"/>
+                                </p:selectOneMenu>
+                                <p:graphicImage id="bandera" value="#{sessionState.idioma=='en'?'/resources/images/EstadosUnidos10.png':'/resources/images/espania10.png'}" rendered="#{sessionState.idUsuarioLogin != null ? false : true}"/>
+                            </h:panelGrid>
+                        </f:facet>
+                        <f:facet name="left">  
+                        </f:facet>
+                        <f:facet name="right" >  
+                            <h:panelGrid columns="8" rendered="#{sessionState.authenticated}">
+
+                            </h:panelGrid>
+                        </f:facet>
+
+                        <p:menubar>
+                            <c:forEach var="menuNivelUno" items="#{loginUsuarioBean.listaMenuTitulo}">
+                                <p:submenu  label="#{menuNivelUno}">
+                                    <c:forEach var="menuNivelDos" items="#{loginUsuarioBean.listaUsuarioRol}">
+                                        <c:if test="${menuNivelUno == menuNivelDos.descripcion}">
+                                            <p:menuitem value="#{menuNivelDos.submenu}"   update="mainPanel" ajax="false" >
+                                                <f:setPropertyActionListener target="#{loginUsuarioBean.pageToDisplay}" value="#{menuNivelDos.url}"/>
+                                            </p:menuitem>
+                                        </c:if>
+                                    </c:forEach>
+                                </p:submenu>
+                            </c:forEach>     
+                        </p:menubar >
+
+
+                    </p:toolbar>  
+                </div>              
+            </div>                             
+        </h:form>
+    </h:body>
+</html>

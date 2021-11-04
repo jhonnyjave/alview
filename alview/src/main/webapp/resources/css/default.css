@@ -1,0 +1,190 @@
+html, body {
+    background-color: #ffffff;
+    font-size: 12px;
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    color: #000000;  
+    margin: 0px;   
+    height: 100%;
+}
+
+h1 {
+    font-family: Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    border-bottom: 1px solid #AFAFAF; 
+    font-size:  16px;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    color: #D20005;
+}
+
+a:link, a:visited {
+    color: #045491;
+    font-weight : bold;
+    text-decoration: none;
+}
+
+a:link:hover, a:visited:hover  {
+    color: #045491;
+    font-weight : bold;
+    text-decoration : underline;
+}
+
+/*.ui-datatable tbody tr.ui-selected td {
+        background-color: #D7D0B7;
+}*/
+.ui-datatable tbody tr.ui-state-highlight td {
+    background: #e1e6ef;           
+    color:#045491;
+    font-weight: bold;
+}
+
+.ui-inputfield {        
+    border-radius: 1px;        
+    background: #e4e6e9  !important;
+}
+
+.fondoInput{
+    background: #e4e6e9 !important;  
+}
+
+.tituloMarca{
+    color:#045491 !important; font-weight: bold !important; text-align: center !important; font-size: 18px !important;    
+}
+
+.tituloLetraBlanca{
+    color:white !important; text-align: center !important; font-size: 12px !important;    
+}
+
+.textoImportante{
+    color:#045491  !important; text-align: center !important; font-weight: bold !important;    
+}
+/*.ui-widget textarea, .ui-widget input, .ui-widget select{
+    background: #e1e6ef !important;    
+}*/
+
+/*Esto se adiciono*/
+
+.ui-widget,
+.ui-widget .ui-widget {
+    font-size: small !important;font-family: Arial, "Arial CE"; 
+}
+
+/*.ui-outputlabel {
+    font-size: 10px !important;
+}*/
+
+.quitarBordes tr, .quitarBordes td
+{                      
+    border: none !important;
+    border-style: none !important;  
+    padding: 2px 4px 3px 4px !important;
+    background: #F8F8F8;
+}
+
+.ui-datatable-data td, .ui-datatable-data td{
+    background-color:  	#f9fbfc;
+    border: 1px !important;
+    border-color: #e1e6ef !important;
+    border-style: inset !important;
+    overflow: auto;
+}  
+
+.panelgrid-dotted-border.ui-panelgrid tr, .panelgrid-dotted-border.ui-panelgrid .ui-panelgrid-cell {
+  /*    border-top : 2px dotted #000;
+        border-right : 2px dotted #000;
+        border-bottom : 2px dotted #000;
+        border-left : 2px dotted #000;*/
+}
+
+.tituloPrincipalCabecera
+{   
+    color: white;
+    text-shadow: 0 -1px 0 rgb(211,7,42), 0 1px 0 white;
+    font-family: Arial, sans-serif;    
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.tituloPrincipalPie
+{                                      
+    font-size-adjust:0.5;
+    color: #666666;
+}
+
+.tituloMenuUsuario
+{
+    color: #666666;
+    text-shadow: 0px -1px 0px #424242;
+    font-size-adjust:0.5;
+    font-family: 'Unna', serif;
+}
+
+.tituloPrincipalFuente
+{                                      
+    font-size: 12px;
+    color:#045491;
+    font-weight: bold;
+}
+
+.tituloPequenioBoton
+{                                      
+    font-size-adjust:0.4;
+    color: #666666;
+}
+
+.menuAccesoDirecto
+{
+    margin-top: 2px; 
+    margin-left: 15px;
+    float: left;
+    width: 10px;
+}
+
+.ui-custompanelgrid, .ui-custompanelgrid td, .ui-custompanelgrid tr {    
+    background-color: transparent !important;
+    border: none !important;
+    border-style: none !important;       
+}
+
+
+fieldset
+{
+    border: 1px solid #AFAFAF;
+    border-radius: 8px;
+}
+
+legend
+{
+    background: #fff;
+    color: #506ba3;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.botonAzulClaro{
+    background: #B0C4DE !important;
+    font-weight: bold !important ;
+    color:  #e1e6ef !important ;
+}
+
+.botonVerdeClaro{
+     background: #82b548 !important ;
+     font-weight: bold !important ;
+     color:  #e1e6ef !important ;
+}
+
+.quitarBordesVerde tr, .quitarBordesVerde td
+{                      
+    border: none !important;
+    border-style: none !important;  
+    padding: 2px 4px 3px 4px !important;
+    background: #cce0b1 !important;
+}
+
+.quitarBordesAzul tr, .quitarBordesAzul td
+{                      
+    border: none !important;
+    border-style: none !important;  
+    padding: 2px 4px 3px 4px !important;
+    background: #e4c5c8 !important;
+}

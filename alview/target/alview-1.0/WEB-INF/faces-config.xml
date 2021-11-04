@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<faces-config version="2.0"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
+	<application>
+
+		<locale-config>
+			<default-locale>es</default-locale>
+		</locale-config>
+		<resource-bundle>
+			<base-name>messages</base-name>
+			<var>msgs</var>
+		</resource-bundle>
+
+
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+
+<!-- 		<application> -->
+<!-- 			<action-listener>org.primefaces.application.DialogActionListener</action-listener> -->
+<!-- 			<navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler> -->
+<!-- 			<view-handler>org.primefaces.application.DialogViewHandler</view-handler> -->
+<!-- 		</application> -->
+
+		<!-- Configuraciones de Dialog Framework -->
+		<!-- <application> -->
+		<!-- <action-listener> -->
+		<!-- org.primefaces.application.DialogActionListener -->
+		<!-- </action-listener> -->
+		<!-- <navigation-handler> -->
+		<!-- org.primefaces.application.DialogNavigationHandler -->
+		<!-- </navigation-handler> -->
+		<!-- <view-handler> -->
+		<!-- org.primefaces.application.DialogViewHandler -->
+		<!-- </view-handler> -->
+		<!-- </application> -->
+
+
+	<!-- **************REGLAS DE NAVEGACION**************** -->
+
+		<navigation-rule>
+			<navigation-case>
+				<from-outcome>login</from-outcome>
+				<to-view-id>/login/login.xhtml</to-view-id>
+			</navigation-case>
+		</navigation-rule>
+
+
+		<!-- Navegación: Pagina Principal -->
+		<navigation-rule>
+			<navigation-case>
+				<from-outcome>abrirPrincipal</from-outcome>
+				<to-view-id>/login/signosPrincipal.xhtml</to-view-id>
+			</navigation-case>
+		</navigation-rule>
+		<!-- ************************** -->
+
+
+		<!-- Navegación: Módulo de Busquedas -->
+		<navigation-rule>
+			<navigation-case>
+				<from-outcome>abrirBusqueda</from-outcome>
+				<to-view-id>busquedas/busqueda.xhtml</to-view-id>
+			</navigation-case>
+		</navigation-rule>
+
+
+		<!-- ******************************* -->
+
+		<navigation-rule>
+			<navigation-case>
+				<from-outcome>modulo</from-outcome>
+				<to-view-id>/login/modulo.xhtml</to-view-id>
+			</navigation-case>
+		</navigation-rule>
+	</application>
+
+</faces-config>

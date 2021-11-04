@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<body>
+	<ui:composition
+		template="./../WEB-INF/facelets/templates/Template.xhtml">
+		<ui:define name="content">
+
+			<h:form id="frmBusqueda">
+				<p:panelGrid style="width: 100%;" styleClass="quitarBordes">
+					<p:row>
+						<p:column style="width: 100%;" colspan="2">
+							<p:outputPanel
+								style="padding-bottom: 1px; padding-top: 1px; padding-left:1px; padding-right: 1px;">
+								<table>
+									<tr valign="middle">
+										<td><p:graphicImage library="images"
+												name="flechaTituloAzul.png" width="24" height="24"></p:graphicImage></td>
+										<td><p:outputLabel value="Criterios de Búsqueda"
+												styleClass="tituloPrincipalFuente"></p:outputLabel></td>
+									</tr>
+								</table>
+								<p:separator id="sepTitulo" style="border: 1px #045491 inset;"></p:separator>
+							</p:outputPanel>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<fieldset style="width: 98%">
+					<p:panelGrid id="subSec">
+						<p:row>
+							<p:column style="text-align: center; width: 30%">
+								<p:outputLabel value="Sub fondo" style="font-weight: bold"
+									styleClass="labelImportante" />
+							</p:column>
+							<p:column style="text-align: center">
+								<p:outputLabel value="Sección" style="font-weight: bold"
+									styleClass="labelImportante" />
+							</p:column>
+							<p:column style="text-align: center">
+								<p:outputLabel value="Serie" style="font-weight: bold"
+									styleClass="labelImportante" />
+							</p:column>
+							<p:column colspan="4" style="text-align: center">
+								<p:outputLabel value="Fecha registro" style="font-weight: bold;" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:selectOneMenu id="subFondo"
+									value="#{busquedaArchivosBean.subFondo}"
+									style="background: #dddddd !important; vertical-align: central">
+									<f:selectItem itemLabel="Seleccionar" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{busquedaArchivosBean.lstSubFondo}"
+										var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}" />
+									<p:ajax update="seccion, serie"
+										listener="#{busquedaArchivosBean.listaDatosComboSeccion(busquedaArchivosBean.subFondo)}" />
+								</p:selectOneMenu>
+							</p:column>
+							<p:column>
+								<p:selectOneMenu id="seccion"
+									value="#{busquedaArchivosBean.seccion}">
+									<f:selectItem itemLabel="Seleccionar" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{busquedaArchivosBean.lstSeccion}"
+										var="r" itemLabel="#{r.nombre}" itemValue="#{r.codigo}" />
+									<p:ajax update="serie, subSec"
+										listener="#{busquedaArchivosBean.listaDatosSerie(busquedaArchivosBean.seccion)}" />
+								</p:selectOneMenu>
+							</p:column>
+							<p:column>
+								<p:selectOneMenu id="serie"
+									value="#{busquedaArchivosBean.serie}">
+									<f:selectItem itemLabel="Seleccionar" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{busquedaArchivosBean.lstSerie}" var="r"
+										itemLabel="#{r.nombre}" itemValue="#{r.codigo}" />
+								</p:selectOneMenu>
+							</p:column>
+							<p:column>
+								<p:outputLabel value="Desde:" style="font-weight: bold" />
+							</p:column>
+							<p:column>
+								<p:calendar id="fechaDes" locale="es"
+									value="#{busquedaArchivosBean.fechaDesde}" navigator="true"
+									pattern="dd/MM/yyyy" mask="true" size="12" />
+							</p:column>
+							<p:column>
+								<p:outputLabel value="Hasta:" style="font-weight: bold" />
+							</p:column>
+							<p:column>
+								<p:calendar id="fechaHas" locale="es"
+									value="#{busquedaArchivosBean.fechaHasta}" navigator="true"
+									pattern="dd/MM/yyyy" mask="true" size="12" />
+							</p:column>
+						</p:row>
+
+					</p:panelGrid>
+				</fieldset>
+				<fieldset style="width: 98%">
+					<p:panelGrid id="criterios">
+						<p:row>
+							<p:column style="width: 35%">
+								<p:outputLabel value="Marca / Descripción"
+									style="font-weight: bold" />
+							</p:column>
+
+							<p:column style="width: 15%">
+								<p:outputLabel value="N° Solicitud" style="font-weight: bold" />
+							</p:column>
+
+							<p:column style="width: 15%">
+								<p:outputLabel value="N° Publicación" style="font-weight: bold" />
+							</p:column>
+
+							<p:column style="width: 15%">
+								<p:outputLabel value="N° Registro" style="font-weight: bold" />
+							</p:column>
+
+							<p:column style="width: 15%">
+								<p:outputLabel value="N° Resolución" style="font-weight: bold" />
+							</p:column>
+
+							<p:column rowspan="2" style="width: 10%">
+								<p:commandButton value="Buscar" icon="ui-icon-search"
+									style="height: 40px"
+									actionListener="#{busquedaArchivosBean.accionBusquedaArchivo()}"
+									update=":frmBusqueda:tblBusquedaSignos
+                                                     :frmBusqueda:oplResultadoRespuesta">
+								</p:commandButton>
+							</p:column>
+
+							<p:column rowspan="2" style="width: 10%"
+								rendered="#{busquedaArchivosBean.tieneAcceso}">
+								<p:commandButton value="PDF" icon="ui-icon-print" ajax="false"
+									style="height: 40px"
+									actionListener="#{busquedaArchivosBean.reportePDF()}">
+								</p:commandButton>
+							</p:column>
+							<p:column rowspan="2" style="width: 10%"
+								rendered="#{busquedaArchivosBean.tieneAcceso}">
+								<p:commandButton value="Excel" icon="ui-icon-contact"
+									ajax="false" style="height: 40px">
+									<p:dataExporter type="xls" target="tblBusquedaSignos"
+										fileName="Busqueda"
+										postProcessor="#{busquedaArchivosBean.reporteExcel}" />
+								</p:commandButton>
+							</p:column>
+
+						</p:row>
+						<p:row>
+
+							<p:column style="width: 35%">
+								<p:inputText id="MarcaDescrip"
+									value="#{busquedaArchivosBean.marcaDescripcion}"
+									style="width: 95%" />
+							</p:column>
+
+							<p:column style="width: 15%">
+								<p:inputText id="NroSolicitud"
+									value="#{busquedaArchivosBean.nroSolicitud}" style="width: 75%" />
+							</p:column>
+
+							<p:column style="width: 15%">
+								<p:inputText id="NroPublicacion"
+									value="#{busquedaArchivosBean.nroPublicacion}"
+									style="width: 75%" />
+							</p:column>
+
+							<p:column style="width: 15%">
+								<p:inputText id="NroRegistro"
+									value="#{busquedaArchivosBean.nroRegistro}" style="width: 75%" />
+							</p:column>
+
+
+							<p:column style="width: 15%">
+								<p:inputText id="NroResolucion"
+									value="#{busquedaArchivosBean.nroResolucion}"
+									style="width: 75%" />
+							</p:column>
+
+						</p:row>
+
+					</p:panelGrid>
+				</fieldset>
+				<p:panelGrid style="width: 100%">
+					<p:row>
+						<p:column>
+							<div align="center">
+								<p:outputLabel id="oplResultadoRespuesta"
+									styleClass="textoImportante"
+									value="#{busquedaArchivosBean.listaBusquedaArchivo.size()} registros recuperadas en #{busquedaArchivosBean.tiempoEjecucion} segundos."></p:outputLabel>
+							</div>
+							<p:dataTable id="tblBusquedaSignos" var="busqueda"
+								value="#{busquedaArchivosBean.listaBusquedaArchivo}" rows="50"
+								emptyMessage="No se encontraron parecidos." paginator="true"
+								rowsPerPageTemplate="50, 100, 150, 500, 1000, 2000"
+								scrollable="true" scrollWidth="1250" liveScroll="true"
+								scrollHeight="400">
+								<p:column headerText="N°" width="5"
+									style="background:#f4f4f4 !important">
+									<p:outputLabel
+										value="#{busquedaArchivosBean.listaBusquedaArchivo.indexOf(busqueda)+1}" />
+								</p:column>
+
+								<p:column headerText="Sub fondo" width="60" resizable="true">
+									<p:outputLabel value="#{busqueda.subFondo}" />
+								</p:column>
+
+								<p:column headerText="Sección" width="45" resizable="true">
+									<p:outputLabel value="#{busqueda.seccion}" />
+								</p:column>
+
+								<p:column headerText="Serie" width="45" resizable="true">
+									<p:outputLabel value="#{busqueda.serie}" />
+								</p:column>
+
+								<p:column headerText="Sala" width="15" resizable="true">
+									<p:outputLabel value="#{busqueda.sala}" />
+								</p:column>
+
+								<p:column headerText="Estante" width="20" resizable="true">
+									<p:outputLabel value="#{busqueda.estante}" />
+								</p:column>
+
+								<p:column headerText="Cuerpo" width="20" resizable="true">
+									<p:outputLabel value="#{busqueda.cuerpo}" />
+								</p:column>
+
+								<p:column headerText="Balda" width="20" resizable="true">
+									<p:outputLabel value="#{busqueda.balda}" />
+								</p:column>
+
+								<p:column headerText="Cubierta" width="60" resizable="true">
+									<p:outputLabel value="#{busqueda.cubierta}" />
+								</p:column>
+
+								<p:column headerText="Solicitud" width="60" resizable="true">
+									<p:outputLabel
+										value="#{busquedaArchivosBean.devuelveSm(busqueda.tipoSolicitud, busqueda.numeroSolicitud, busqueda.gestionSolicitud)}" />
+								</p:column>
+
+								<p:column headerText="N° Public." width="30" resizable="true">
+									<p:outputLabel
+										value="#{busqueda.numeroPublicacion == 0?'':busqueda.numeroPublicacion}" />
+								</p:column>
+
+								<p:column headerText="N° Registro" width="30" resizable="true">
+									<p:outputLabel
+										value="#{busquedaArchivosBean.devuelveRegistro(busqueda.numeroRegistro, busqueda.serieRegistro)}" />
+								</p:column>
+
+								<p:column headerText="N° Resol." width="35">
+									<p:outputLabel
+										value="#{busquedaArchivosBean.devuelveResolucion(busqueda.numeroResolucion, busqueda.gestionResolucion)}" />
+								</p:column>
+
+								<p:column headerText="Marca/Descripción" width="120"
+									resizable="true">
+									<p:outputLabel value="#{busqueda.marca}" />
+								</p:column>
+
+								<p:column headerText="Gestión" width="30">
+									<p:outputLabel
+										value="#{busqueda.gestion == 0 ?'':busqueda.gestion}" />
+								</p:column>
+
+								<p:column headerText="Fecha Reg." width="30">
+									<p:outputLabel value="#{busqueda.fechaRegistro}">
+										<f:convertDateTime pattern="#{sessionState.formatoFecha}" />
+									</p:outputLabel>
+								</p:column>
+
+								<p:column headerText="Observación" width="60" resizable="true">
+									<p:outputLabel value="#{busqueda.observacion}" />
+								</p:column>
+
+								<p:column headerText="Usuario" width="30">
+									<p:outputLabel value="#{busqueda.usuario}" />
+								</p:column>
+							</p:dataTable>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;"
+					onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+				<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+					closable="false" resizable="false" showHeader="false">
+					<p:graphicImage value="/resources/images/ajaxloadingbar.gif" />
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>

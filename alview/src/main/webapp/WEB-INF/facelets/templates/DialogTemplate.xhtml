@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputScript library="js" name="spanishLocale.js"/>
+        <script type="text/javascript">
+            function Solo_Numerico(variable) {
+                Numer = parseInt(variable);
+                if (isNaN(Numer)) {
+                    return "";
+                }
+                return Numer;
+            }
+            function ValNumero(Control) {
+                Control.value = Solo_Numerico(Control.value);
+            }
+        </script>
+    </h:head>
+
+    <h:body style="background-image: url(../resources/images/logoSenapiAgua3.png)">
+
+        <f:view contentType="text/html">
+
+
+            <h:body style="width: 100% !important">
+                <p:layout fullPage="true">
+
+                    <p:layoutUnit position="center">
+                        <ui:insert  name="content"></ui:insert>
+                    </p:layoutUnit>
+
+                </p:layout>
+            </h:body>
+        </f:view>
+
+    </h:body>            
+</html>
+
+

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+ 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+ 
+     
+    <!--Pool de conexiones base hidra -->
+<!--    <bean id="dataSourceGI" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="jdniarchivo" />
+        <property name="resourceRef" value="true" />
+    </bean>-->
+    
+    <context:annotation-config/>
+    <!--<context:component-scan base-package="snp.gob.bo.gimodel.servicio.impl" />-->
+   
+    <!--Conexion Postgres bdhidra-->
+
+<bean id="dataSourceGI" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+       <property name="driverClassName" value="org.postgresql.Driver"/>
+       <property name="url" value="jdbc:postgresql://10.0.139.27:5432/bdarchivo"/>
+       <property name="username" value="archivo"/>
+       <property name="password" value="4rch1v0"/>
+   </bean>
+ 
+    <!--JDBC-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="dataSourceGI"></constructor-arg>
+    </bean>
+    
+    <tx:annotation-driven />
+    
+    <bean id="registroAlmacenesService" class="snp.gob.bo.almodel.servicio.impl.RegistroAlmacenesServiceImpl">
+        <property name="dataSource" ref="dataSourceGI" />
+    </bean>
+    
+    <bean id="dominioService" class="snp.gob.bo.almodel.servicio.impl.DominioServiceImpl">
+        <property name="dataSource" ref="dataSourceGI" />
+    </bean>
+
+    <bean id="listaUsuarioRolService" class="snp.gob.bo.almodel.servicio.impl.ListaUsuarioRolServiceImpl">
+        <property name="dataSource" ref="dataSourceGI" />
+    </bean>
+    
+    <bean id="comunService" class="snp.gob.bo.almodel.servicio.impl.ComunServiceImpl">
+        <property name="dataSource" ref="dataSourceGI" />
+    </bean>
+    
+    <bean id="usuarioEtapaService" class="snp.gob.bo.almodel.servicio.impl.UsuarioEtapaServiceImpl">
+        <property name="dataSource" ref="dataSourceGI" />
+    </bean>
+
+    <bean id="etapaService" class="snp.gob.bo.almodel.servicio.impl.EtapaServiceImpl">
+        <property name="dataSource" ref="dataSourceGI" />
+    </bean>
+        
+    <bean id="usuarioService" class="snp.gob.bo.almodel.servicio.impl.UsuarioServiceImpl">
+        <property name="dataSource" ref="dataSourceGI" />
+    </bean>
+    
+    <bean id="busquedaArchivoService" class="snp.gob.bo.almodel.servicio.impl.BusquedaArchivoServiceImpl">
+        <property name="dataSource" ref="dataSourceGI" />
+    </bean>
+    
+    <bean id="usuarioPaginaService" class="snp.gob.bo.almodel.servicio.impl.UsuarioPaginaServiceImpl">
+        <property name="dataSource" ref="dataSourceGI" />
+    </bean>    
+</beans>

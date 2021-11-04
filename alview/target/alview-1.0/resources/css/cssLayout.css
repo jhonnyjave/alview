@@ -1,0 +1,93 @@
+
+#top {
+    border: 1px solid rgb(211,7,42); /* Color del borde, debe ser más oscuro que fondo */
+    background: rgb(144,30,56); /* Fondo */
+    border-radius: 4px;  /* Bordes redondos */
+    box-shadow: inset 3px 3px 3px rgba(255,255,255,.7), inset -2px -2px 3px rgba(0,0,0,.1), 2px 2px 10px rgba(0,0,0,.1);
+    text-shadow: 1px 1px 1px rgba(211,7,42,.9);  /* Sombra del texto */        
+}
+
+
+#bottom {
+    position: relative;
+    /*background-color:#dddddd;*/
+    height: 25px;        
+}
+
+/*#left {
+    float: left;
+    background-color: #ece3a5;
+    padding: 5px;
+    width: 150px;
+}
+
+#right {
+    float: right;
+    background-color: #ece3a5;
+    padding: 5px;
+    width: 150px;
+}*/
+
+.center_content {    
+    position: relative;
+/*    border: 1px solid;
+    border-color: #AFAFAF;*/
+    padding: 5px;
+    width: 1280px;
+    height: fit-content;
+    margin: 0 auto;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+}
+
+ul.ui-menu-child {
+    white-space: nowrap;
+    width: auto !important;
+}
+
+.ui-button{
+   background: #b1c3cd !important;
+   color: #1a3238 !important ;
+   font-weight: 500 !important;
+}
+
+.ui-button.ui-state-hover, .ui-button.ui-state-active{
+    border: #3e6a83 !important;
+    background: #bcdce4 !important;
+}
+
+
+
+/*Para que los menus principales se ajusten al texto, y o desborden la letra
+    
+    width: auto !important;
+}*/
+
+/*.left_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin-left: 170px;
+}
+
+.right_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin: 0px 170px 0px 170px;
+}*/
+
+/*
+#top a:link, #top a:visited {
+    color: white;
+    font-weight : bold;
+    text-decoration: none;
+}
+
+#top a:link:hover, #top a:visited:hover  {
+    color: black;
+    font-weight : bold;
+    text-decoration : underline;
+}
+
+*/

@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"          
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/facelets/templates/Template.xhtml">
+
+            <ui:define name="content">
+
+                <script language="javascript">
+                    function MouseRollover(MyImage) {
+                        prompt("hola mundo");
+                        MyImage.src = "/giview/faces/javax.faces.resource/btnSignosOff.png";
+                    }
+                    function MouseOut(MyImage) {
+                        MyImage.src = "/giview/faces/javax.faces.resource/btnSignos2.png";
+                    }
+                </script> 
+                <style type="text/css">                   
+
+                    .tituloTamanoFuente
+                    {                                      
+                        font-size-adjust:0.6;
+                        color:#045491;
+                        font-weight: bold;
+                    }
+
+                    .tituloTamanoFuenteTotal
+                    {                                      
+                        font-size-adjust:0.9;
+                        color: white;
+                        font-weight: bold;
+                        background: #666666;
+                        padding: 2px 5px 2px 5px;
+                    }
+
+                    .textoTamanoFuente
+                    {                                      
+                        font-size-adjust:0.6;
+                        color:gray;
+                    }
+
+                    .celdaNumero
+                    {
+                        background: #D8D8D8;
+                        color: #333333;
+                        //font-weight: bold;
+                        //font-size: 15px;
+                    }
+
+                    .celdaRojo        
+                    {
+                        background: red;
+                        color: #F6CECE;
+                    }
+
+                    .celdaNaranja
+                    {
+                        background: #F7BE81;
+                        color: gray;
+                    }
+
+                    .celdaAmarillo        
+                    {
+                        background: #F3F781;
+                        color: gray;
+                    }
+
+                    .celdaVerde        
+                    {
+                        background: #D8F781;
+                        color: #ffffff;
+                    }
+
+                    .celdaAzul        
+                    {
+                        background: blue;
+                        color: #ffffff;
+                    }
+
+                    .celdaNormal
+                    {
+                        background: white;
+                        color: grey;
+                    }
+                </style>
+<f:metadata>
+    <f:event type="preRenderView" listener="#{verificaSesion.verifica()}"/>
+</f:metadata>
+                <h:form id="formModulo">    
+                      <p:growl id="growl" showDetail="true" sticky="true" />  
+                    <p:panelGrid style="width: 100%;" styleClass="quitarBordes">
+                        <p:row>
+                            <p:column style="width: 100%;">
+                                <p:outputPanel style="padding-bottom: 5px; padding-top: 10px; padding-left:10px; padding-right: 10px;">
+                                    <table>
+                                        <tr valign="middle">
+                                            <td><p:graphicImage library="images" name="flechaTituloAzul.png" width="24" height="24"></p:graphicImage></td>
+                                            <td><p:outputLabel value="MODULOS DEL SISTEMA" styleClass="tituloPrincipalFuente"></p:outputLabel></td>
+                                        </tr>
+                                    </table>                    
+                                    <p:separator id="sepTitulo" style="border: 1px #045491 inset;"></p:separator>                    
+                                </p:outputPanel>
+                                <p:spacer height="15"></p:spacer>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="width: 100%; background-image: url(../resources/images/logoSenapiAgua3.png);">
+                                <div align="center">
+                                    <p:panelGrid style="width: 600px; text-align: center; " >
+                                        <p:row>                                                 
+                                            <p:column  style=" width: 150px;">                                                
+                                                <p:commandLink action="#{moduloBean.seteaSesionMenu('1')}" update="growl" ajax="false">                                                                                                        
+                                                    <p:graphicImage id="img1" library="images" name="logoarchivo.png" width="220" height="220">                                                        
+                                                    </p:graphicImage>                                                    
+                                                </p:commandLink>                                                
+                                            </p:column>
+<!--                                            <p:column  style=" width: 150px;">
+                                                <p:commandLink action="# {moduloBean.seteaSesionMenu('10')}" update="growl">
+                                                    <p:graphicImage library="images" name="patentes_on.png" width="140" height="200"></p:graphicImage>
+                                                </p:commandLink>
+                                            </p:column>
+                                            <p:column  style=" width: 150px;">
+                                                <p:commandLink action="# {moduloBean.seteaSesionMenu('10')}" update="growl">
+                                                    <p:graphicImage library="images" name="autor_on.png" width="140" height="200"></p:graphicImage>
+                                                </p:commandLink>
+                                            </p:column>
+                                            <p:column  style=" width: 150px;">
+                                                     <p:commandLink action="# {moduloBean.seteaSesionMenu('2')}"  update="growl">
+
+                                                       <p:graphicImage library="images" name="recaud_on.png" width="140" height="200"></p:graphicImage>
+                                                    </p:commandLink>
+
+                                            </p:column>-->
+                                        </p:row>
+<!--                                        <p:row>
+                                            <p:column  style=" width: 150px;">                                                
+                                                <p:commandLink action="# {moduloBean.seteaSesionMenu('3')}" update="growl">                                                                                                        
+                                                    <p:graphicImage id="img11" library="images" name="noti_on.png" width="140" height="200">                                                        
+                                                    </p:graphicImage>                                                    
+                                                </p:commandLink>                                                
+                                            </p:column>
+                                            <p:column  style=" width: 150px;">
+                                                <p:commandLink action="# {moduloBean.seteaSesionMenu('4')}" update="growl">
+                                                    <p:graphicImage library="images" name="digi_on.png"  width="140" height="200"></p:graphicImage>
+                                                </p:commandLink>
+                                            </p:column>
+                                            <p:column  style=" width: 150px;">
+                                                <p:commandLink action="# {moduloBean.seteaSesionMenu('10')}" update="growl">
+                                                    <p:graphicImage library="images" name="usuario_on.png"  width="140" height="200"></p:graphicImage>
+                                                </p:commandLink>
+                                            </p:column>
+                                            <p:column  style=" width: 150px;">                                                
+                                                <p:commandLink>
+                                                    <p:graphicImage library="images" name="mant_on.png"  width="140" height="200"></p:graphicImage>
+                                                </p:commandLink>
+                                            </p:column>
+                                        </p:row>
+                                                                                <p:row>
+                                            <p:column  style=" width: 150px;">                                                
+                                                <p:commandLink>                                                                                                        
+                                                    <p:graphicImage  library="images" name="reportes_on.png" width="140" height="200">                                                        
+                                                    </p:graphicImage>                                                    
+                                                </p:commandLink>                                                
+                                            </p:column>
+                                            <p:column  style=" width: 150px;">
+                                                <p:commandLink>
+                                                    <p:graphicImage library="images" name="reportes_on.png"  width="140" height="200"></p:graphicImage>
+                                                </p:commandLink>
+                                            </p:column>
+                                            <p:column  style=" width: 150px;">
+                                                <p:commandLink>
+                                                    <p:graphicImage library="images" name="usuario_on.png"  width="140" height="200"></p:graphicImage>
+                                                </p:commandLink>
+                                            </p:column>
+                                            <p:column  style=" width: 150px;">                                                
+                                                <p:commandLink>
+                                                    <p:graphicImage library="images" name="mant_on.png"  width="140" height="200"></p:graphicImage>
+                                                </p:commandLink>
+                                            </p:column>
+                                        </p:row>-->
+                                    </p:panelGrid>
+                                </div>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="width: 100%;">
+                                <p:spacer height="15"></p:spacer>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>                    
+                </h:form>
+                
+            </ui:define>
+
+        </ui:composition>        
+    </body>
+</html>

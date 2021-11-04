@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:body>
+        <h:form id="fr">
+            <p:growl id="growl" showDetail="true" sticky="true" />  
+             <!-- Para que en los menus al hacer click salga en otro tab, hay que poner dentro de menuitem, el target="_blank"
+             , pero para saver a que submenu  poner habria que modificar la consulta de listaUsuarioRol y mande si es notificacion u otro, y colocar el if-->
+            
+            
+             
+             <p:menubar>
+               
+                <c:forEach var="menuNivelUno" items="#{mainController.listaMenuTitulo}">
+                    <p:submenu  label="#{menuNivelUno}" >
+                        <c:forEach var="menuNivelDos" items="#{mainController.listaUsuarioRol}">
+                            <c:if test="${menuNivelUno == menuNivelDos.descripcion}">
+                                <c:if test="${mainController.subMenuEscoge=='3'}">
+                                          <p:menuitem value="#{menuNivelDos.submenu} "  ajax="false" action="#{mainController.urlDirige(menuNivelDos.url.concat(',').concat(menuNivelDos.estado))}"
+                                            update="growl"
+                                              target="_blank"
+                                            >
+                                    
+                                          </p:menuitem>
+                                </c:if>      
+                                <c:if test="${mainController.subMenuEscoge!='3'}">
+                                          <p:menuitem value="#{menuNivelDos.submenu} "  ajax="false" action="#{mainController.urlDirige(menuNivelDos.url.concat(',').concat(menuNivelDos.estado))}"
+                                                      update="growl" style="width: 100%"
+                                            
+                                            >
+                                    
+                                          </p:menuitem>
+                                </c:if>      
+                                
+                                
+                                
+                                
+                                
+                                
+                              
+                            </c:if>
+                        </c:forEach>
+                    </p:submenu>
+                </c:forEach>  
+                
+               
+                
+                <f:facet name="options" rendered="#{mainController.muestraMenu}">
+
+                    <p:panelGrid id="menu" rendered="#{mainController.muestraMenu}" styleClass="quitarBordes">
+<!--                        <table>
+                            <tr>
+                                <td align="center"><p:graphicImage library="images" name="icoUsuario.png" width="16" height="16" ></p:graphicImage></td>
+                                <td align="center"><p:outputLabel value="# {mainController.nombreUsuario}" styleClass="tituloMenuUsuario"></p:outputLabel></td>
+                                
+                            </tr>
+                            <tr>
+                                <td align="center"><p:graphicImage library="images" name="icoCerrarSesion.png" width="16" height="16" ></p:graphicImage></td>        
+                                <td align="center">
+                                    <p:commandLink action="# {mainController.derivaLogin()}">                                                 
+                                        <p:outputLabel styleClass="tituloMenuUsuario" value="Cerrar Sesion"></p:outputLabel>
+                                    </p:commandLink>
+                                </td>
+                            </tr>
+                        </table>-->
+                       
+                    </p:panelGrid>
+
+                </f:facet>
+            </p:menubar>
+<!--            <div class="menuAccesoDirecto">                
+                <p:panelGrid rendered=" # {mainController.muestraMenu}" styleClass="quitarBordes">
+                    
+                    <p:panelGrid id="signos" rendered="# {mainController.renderizaSignos}" styleClass="quitarBordes">
+                        <p:spacer width="10"></p:spacer>
+                        <p:commandLink title="Expediente" action="abrirExpediente">
+                            <p:graphicImage library="images" name="icoExpediente.png" width="20" height="20"></p:graphicImage>
+                        </p:commandLink>                                        
+                        <p:spacer width="10"></p:spacer>
+                        <p:commandLink title="Buscar" action="abrirBusqueda">
+                            <p:graphicImage library="images" name="icoBuscar.png" width="20" height="20"></p:graphicImage>
+                        </p:commandLink>
+                        <p:spacer width="10"></p:spacer>
+                        <p:commandLink title="Imprimir" action="abrirImprimirExpediente">
+                            <p:graphicImage library="images" name="icoImprimir.png" width="20" height="20"></p:graphicImage>
+                        </p:commandLink>
+                        <p:spacer width="10"></p:spacer>
+                        <p:commandLink title="Libro de Poderes" action="abrirLibroPoderes">
+                            <p:graphicImage library="images" name="icoLibroPoderes.png" width="20" height="20"></p:graphicImage>
+                        </p:commandLink>
+                        <p:spacer width="10"></p:spacer>
+                        <p:commandLink title="Modificaciones" action="examenModificacion">
+                            <p:graphicImage library="images" name="icoModificaciones.png" width="20" height="20"></p:graphicImage>
+                        </p:commandLink>
+                        <p:spacer width="10"></p:spacer>
+                        <p:commandLink title="Renovaciones" action="examenRenovacion">
+                            <p:graphicImage library="images" name="icoRenovaciones.png" width="20" height="20"></p:graphicImage>
+                        </p:commandLink>
+                    </p:panelGrid>
+                    
+                    <p:panelGrid id="recaudaciones" rendered="# {mainController.renderizaRecaudaciones}" styleClass="quitarBordes">
+                        <p:spacer width="10"></p:spacer>
+                        <p:commandLink title="Nuevo Recibo" action="recibo">
+                            <p:graphicImage library="images" name="icoExpediente.png" width="20" height="20"></p:graphicImage>
+                        </p:commandLink>                                        
+                        <p:spacer width="10"></p:spacer>
+                        <p:commandLink title="Buscar Recibo" action="busquedaRecibo">
+                            <p:graphicImage library="images" name="icoBuscar.png" width="20" height="20"></p:graphicImage>
+                        </p:commandLink>
+                        <p:spacer width="10"></p:spacer>
+                    </p:panelGrid>
+                </p:panelGrid>
+            </div>-->
+        </h:form>
+    </h:body>
+</html>

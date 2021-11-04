@@ -1,0 +1,963 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<body>
+	<ui:composition
+		template="./../WEB-INF/facelets/templates/Template.xhtml">
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="message" showDetail="true" life="10000" />
+				<p:panelGrid style="width: 100%; height: 100%"
+					styleClass="quitarBordes">
+					<p:row>
+						<p:column>
+							<p:panelGrid columns="5">
+								<p:outputLabel value="REGISTRO DE ARCHIVOS"
+									style="font-weight: bold"></p:outputLabel>
+							</p:panelGrid>
+						</p:column>
+						<p:column>
+							<p:panelGrid columns="5">
+								<p:outputLabel value="Fecha registro" style="font-weight: bold"></p:outputLabel>
+								<p:calendar id="fechaRegistro" locale="es"
+									value="#{archivoBean.fechaRegistro}" navigator="true"
+									pattern="dd/MM/yyyy" mask="true" size="12" />
+							</p:panelGrid>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="8">
+							<fieldset>
+								<legend>
+									<p:outputLabel value="DATOS ADMINISTRATIVOS"
+										styleClass="labelImportante" />
+								</legend>
+								<p:panelGrid columns="8" id="panelAdmin">
+									<p:outputLabel value="Sub fondo:" style="font-weight: bold"
+										styleClass="labelImportante" />
+									<p:selectOneMenu id="subFondo" value="#{archivoBean.subFondo}"
+										style="background: #dddddd !important; vertical-align: central">
+										<f:selectItem itemLabel="Seleccionar" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{archivoBean.lstSubFondo}" var="r"
+											itemLabel="#{r.nombre}" itemValue="#{r.codigo}" />
+										<p:ajax update="seccion, serie, panelAdmin"
+											listener="#{archivoBean.listaDatosComboSeccion(archivoBean.subFondo)}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="" />
+
+									<p:outputLabel value="Sección" style="font-weight: bold;"
+										styleClass="labelImportante" />
+									<p:selectOneMenu id="seccion" value="#{archivoBean.seccion}">
+										<f:selectItem itemLabel="Seleccionar" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{archivoBean.lstSeccion}" var="r"
+											itemLabel="#{r.nombre}" itemValue="#{r.codigo}" />
+										<p:ajax update=":form:serie"
+											listener="#{archivoBean.listaDatosComboSerie(archivoBean.seccion)}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="" />
+
+									<p:outputLabel value="Serie" style="font-weight: bold;"
+										styleClass="labelImportante" />
+									<p:selectOneMenu id="serie" value="#{archivoBean.serie}">
+										<f:selectItem itemLabel="Seleccionar" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{archivoBean.lstSerie}" var="r"
+											itemLabel="#{r.nombre}" itemValue="#{r.codigo}" />
+										<p:ajax update="datosArchivo"
+											listener="#{archivoBean.renderizaPaneles(archivoBean.serie)}" />
+									</p:selectOneMenu>
+								</p:panelGrid>
+							</fieldset>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="8">
+							<fieldset>
+								<legend>
+									<p:outputLabel value="AREA DE IDENTIFICACIÓN"
+										styleClass="labelImportante" />
+								</legend>
+								<p:panelGrid>
+									<p:row>
+										<p:column colspan="5">
+											<p:panelGrid columns="10">
+												<p:outputLabel value="Sala:" style="font-weight: bold"></p:outputLabel>
+												<p:inputText value="#{archivoBean.registroInventario.sala}"
+													size="10" rendered="true"></p:inputText>
+												<p:outputLabel value="Estante:" style="font-weight: bold"></p:outputLabel>
+												<p:inputText
+													value="#{archivoBean.registroInventario.estante}" size="10"
+													rendered="true"></p:inputText>
+												<p:outputLabel value="Cuerpo:" style="font-weight: bold"></p:outputLabel>
+												<p:inputText
+													value="#{archivoBean.registroInventario.cuerpo}" size="10"
+													rendered="true"></p:inputText>
+												<p:outputLabel value="Balda:" style="font-weight: bold"></p:outputLabel>
+												<p:inputText value="#{archivoBean.registroInventario.balda}"
+													size="10"></p:inputText>
+												<p:outputLabel value="Cubierta:" style="font-weight: bold"></p:outputLabel>
+												<p:selectOneMenu id="cubierta"
+													value="#{archivoBean.registroInventario.cubierta}"
+													rendered="true">
+													<f:selectItem itemLabel="Seleccionar" itemValue=""
+														noSelectionOption="true" />
+													<f:selectItems value="#{archivoBean.lstCubierta}" var="c"
+														itemLabel="#{c.nombre}" itemValue="#{c.codigo}" />
+												</p:selectOneMenu>
+											</p:panelGrid>
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:panelGrid columns="8">
+												<p:outputLabel value="OBSERVACIÓN:"
+													style="font-weight: bold; width:80%"></p:outputLabel>
+												<p:inputText
+													value="#{archivoBean.registroInventario.observacion}"
+													size="94"></p:inputText>
+											</p:panelGrid>
+										</p:column>
+										<p:column styleClass="ui-widget-header">
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</fieldset>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<p:outputPanel id="datosArchivo" style="width: 100%;">
+					<p:panelGrid id="panelesdatosvistauno"
+						style="width: 100%; height: 100%" styleClass="quitarBordes">
+						<p:row>
+							<p:panelGrid id="datosuno" rendered="#{archivoBean.paneluno}"
+								styleClass="quitarBordes">
+								<p:column colspan="8">
+									<fieldset style="width: 100%">
+										<legend>
+											<p:outputLabel value="AREA DE CONTENIDO"
+												styleClass="labelImportante" />
+										</legend>
+										<p:panelGrid>
+											<p:row>
+												<p:column colspan="3">
+													<p:outputLabel value="Descripción"
+														style="font-weight: bold;"></p:outputLabel>
+												</p:column>
+												<p:column colspan="5">
+													<p:inputText
+														value="#{archivoBean.registroInventario.marca}" size="133"></p:inputText>
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column colspan="3">
+													<p:outputLabel value="Gestión" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column colspan="5">
+													<p:inputText
+														value="#{archivoBean.registroInventario.gestion}"
+														size="12"></p:inputText>
+												</p:column>
+											</p:row>
+										</p:panelGrid>
+									</fieldset>
+								</p:column>
+							</p:panelGrid>
+						</p:row>
+					</p:panelGrid>
+					<p:panelGrid id="panelesdatosvistasdos"
+						style="width: 100%; height: 90%" styleClass="quitarBordes">
+						<p:row>
+							<p:panelGrid id="datosdos" rendered="#{archivoBean.paneldos}"
+								styleClass="quitarBordes">
+								<p:column colspan="8">
+									<fieldset style="width: 100%">
+										<legend>
+											<p:outputLabel value="AREA DE CONTENIDO"
+												styleClass="labelImportante" />
+										</legend>
+										<p:panelGrid>
+											<p:row>
+												<p:column>
+													<p:outputLabel value="Código tramite"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Número" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Gestión" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="No. public."
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="No. registro"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Serie registro"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Número resol."
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Gestión resol."
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column>
+													<p:selectOneMenu id="consoledos"
+														value="#{archivoBean.tipoTramiteCombo}">
+														<f:selectItem itemLabel="SM" itemValue="SM" />
+														<f:selectItem itemLabel="SR" itemValue="SR" />
+														<f:selectItem itemLabel="SF" itemValue="SF" />
+														<f:selectItem itemLabel="CN" itemValue="CN" />
+														<f:selectItem itemLabel="CD" itemValue="CD" />
+														<f:selectItem itemLabel="ST" itemValue="ST" />
+														<f:selectItem itemLabel="LU" itemValue="LU" />
+														<f:selectItem itemLabel="SP" itemValue="SP" />
+														<f:selectItem itemLabel="OP" itemValue="OP" />
+														<f:selectItem itemLabel="BQ" itemValue="BQ" />
+													</p:selectOneMenu>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroSolicitud}"
+														size="12" maxlength="12"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.gestionSolicitud}"
+														maxlength="5" size="5" style=""></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroPublicacion}"
+														size="12"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroRegistro}"
+														size="12"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.serieRegistro}"
+														size="5"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroResolucion}"
+														size="12"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.gestionResolucion}"
+														size="5"></p:inputText>
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column colspan="2">
+													<p:outputLabel value="Marca / signo distintivo"
+														style="font-weight: bold; width: 20%"></p:outputLabel>
+												</p:column>
+												<p:column colspan="6">
+													<p:inputText
+														value="#{archivoBean.registroInventario.marca}" size="120"></p:inputText>
+												</p:column>
+											</p:row>
+										</p:panelGrid>
+									</fieldset>
+								</p:column>
+							</p:panelGrid>
+						</p:row>
+					</p:panelGrid>
+					<p:panelGrid id="panelesdatosvistatres"
+						style="width: 100%; height: 90%" styleClass="quitarBordes">
+						<p:row>
+							<p:panelGrid id="datostres" rendered="#{archivoBean.paneltres}"
+								styleClass="quitarBordes">
+								<p:column colspan="8">
+									<fieldset style="width: 100%">
+										<legend>
+											<p:outputLabel value="AREA DE CONTENIDO"
+												styleClass="labelImportante" />
+										</legend>
+										<p:panelGrid>
+											<p:row>
+												<p:column>
+													<p:outputLabel value="Código tramite"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Número" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Gestión" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="No. resol." style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column colspan="4">
+													<p:outputLabel value="Gestión resol."
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column>
+													<p:selectOneMenu id="consoletres"
+														value="#{archivoBean.tipoTramiteCombo}">
+														<f:selectItem itemLabel="SM" itemValue="SM" />
+														<f:selectItem itemLabel="SR" itemValue="SR" />
+														<f:selectItem itemLabel="SF" itemValue="SF" />
+														<f:selectItem itemLabel="CN" itemValue="CN" />
+														<f:selectItem itemLabel="CD" itemValue="CD" />
+														<f:selectItem itemLabel="ST" itemValue="ST" />
+														<f:selectItem itemLabel="LU" itemValue="LU" />
+														<f:selectItem itemLabel="SP" itemValue="SP" />
+														<f:selectItem itemLabel="OP" itemValue="OP" />
+														<f:selectItem itemLabel="BQ" itemValue="BQ" />
+													</p:selectOneMenu>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroSolicitud}"
+														size="12" maxlength="12"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.gestionSolicitud}"
+														maxlength="5" size="5" style=""></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroResolucion}"
+														size="12"></p:inputText>
+												</p:column>
+												<p:column colspan="4">
+													<p:inputText
+														value="#{archivoBean.registroInventario.gestionResolucion}"
+														size="5"></p:inputText>
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column colspan="2">
+													<p:outputLabel value="Descripción / marca"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column colspan="6">
+													<p:inputText
+														value="#{archivoBean.registroInventario.marca}" size="120"></p:inputText>
+												</p:column>
+											</p:row>
+										</p:panelGrid>
+									</fieldset>
+								</p:column>
+							</p:panelGrid>
+						</p:row>
+					</p:panelGrid>
+					<p:panelGrid id="panelesdatosvistacuatro"
+						style="width: 100%; height: 90%" styleClass="quitarBordes">
+						<p:row>
+							<p:panelGrid id="datoscuatro"
+								rendered="#{archivoBean.panelcuatro}" styleClass="quitarBordes">
+								<p:column colspan="5">
+									<fieldset style="width: 100%">
+										<legend>
+											<p:outputLabel value="AREA DE CONTENIDO"
+												styleClass="labelImportante" />
+										</legend>
+										<p:panelGrid>
+											<p:row>
+												<p:column>
+													<p:outputLabel value="Código tramite"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Número" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Gestión" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="No. public."
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column>
+													<p:selectOneMenu id="consolecuatro"
+														value="#{archivoBean.tipoTramiteCombo}">
+														<f:selectItem itemLabel="SM" itemValue="SM" />
+														<f:selectItem itemLabel="SR" itemValue="SR" />
+														<f:selectItem itemLabel="SF" itemValue="SF" />
+														<f:selectItem itemLabel="CN" itemValue="CN" />
+														<f:selectItem itemLabel="CD" itemValue="CD" />
+														<f:selectItem itemLabel="ST" itemValue="ST" />
+														<f:selectItem itemLabel="LU" itemValue="LU" />
+														<f:selectItem itemLabel="SP" itemValue="SP" />
+														<f:selectItem itemLabel="OP" itemValue="OP" />
+														<f:selectItem itemLabel="BQ" itemValue="BQ" />
+													</p:selectOneMenu>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroSolicitud}"
+														size="12" maxlength="12"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.gestionSolicitud}"
+														maxlength="5" size="5" style=""></p:inputText>
+												</p:column>
+												<p:column colspan="4">
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroPublicacion}"
+														size="12"></p:inputText>
+												</p:column>
+											</p:row>
+
+											<p:row>
+												<p:column colspan="2">
+													<p:outputLabel value="Descripción / marca"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column colspan="6">
+													<p:inputText
+														value="#{archivoBean.registroInventario.marca}" size="120"></p:inputText>
+												</p:column>
+											</p:row>
+										</p:panelGrid>
+									</fieldset>
+								</p:column>
+							</p:panelGrid>
+						</p:row>
+					</p:panelGrid>
+					<p:panelGrid id="panelesdatosvistacinco"
+						style="width: 100%; height: 90%" styleClass="quitarBordes">
+						<p:row>
+							<p:panelGrid id="datoscinco" rendered="#{archivoBean.panelcinco}"
+								styleClass="quitarBordes">
+
+								<p:column colspan="8">
+									<fieldset style="width: 100%">
+										<legend>
+											<p:outputLabel value="AREA DE CONTENIDO"
+												styleClass="labelImportante" />
+										</legend>
+										<p:panelGrid>
+											<p:row>
+												<p:column>
+													<p:outputLabel value="Código tramite"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Número" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Gestión" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="No. registro"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Serie registro"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="No. public."
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column colspan="2">
+													<p:outputLabel value="No. gaceta" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column>
+													<p:selectOneMenu id="consolecinco"
+														value="#{archivoBean.tipoTramiteCombo}">
+														<f:selectItem itemLabel="DA" itemValue="DA" />
+														<f:selectItem itemLabel="SM" itemValue="SM" />
+														<f:selectItem itemLabel="SR" itemValue="SR" />
+														<f:selectItem itemLabel="SF" itemValue="SF" />
+														<f:selectItem itemLabel="CN" itemValue="CN" />
+														<f:selectItem itemLabel="CD" itemValue="CD" />
+														<f:selectItem itemLabel="ST" itemValue="ST" />
+														<f:selectItem itemLabel="LU" itemValue="LU" />
+														<f:selectItem itemLabel="SP" itemValue="SP" />
+														<f:selectItem itemLabel="OP" itemValue="OP" />
+														<f:selectItem itemLabel="BQ" itemValue="BQ" />
+													</p:selectOneMenu>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroSolicitud}"
+														size="12" maxlength="12"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.gestionSolicitud}"
+														maxlength="5" size="5" style=""></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroRegistro}"
+														size="12"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.serieRegistro}"
+														size="5"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroPublicacion}"
+														size="12"></p:inputText>
+												</p:column>
+												<p:column colspan="2">
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroGaceta}"
+														size="5"></p:inputText>
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column colspan="2">
+													<p:outputLabel value="Descripción / marca"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column colspan="6">
+													<p:inputText
+														value="#{archivoBean.registroInventario.marca}" size="120"></p:inputText>
+												</p:column>
+											</p:row>
+										</p:panelGrid>
+									</fieldset>
+								</p:column>
+							</p:panelGrid>
+						</p:row>
+					</p:panelGrid>
+					<p:panelGrid id="panelesdatosvistasies"
+						style="width: 100%; height: 90%" styleClass="quitarBordes">
+						<p:row>
+							<p:panelGrid id="datosseis" rendered="#{archivoBean.panelseis}"
+								styleClass="quitarBordes">
+								<p:column colspan="8">
+									<fieldset style="width: 100%">
+										<legend>
+											<p:outputLabel value="AREA DE CONTENIDO"
+												styleClass="labelImportante" />
+										</legend>
+										<p:panelGrid>
+											<p:row>
+												<p:column colspan="1">
+													<p:outputLabel value="Código tramite"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column colspan="1">
+													<p:outputLabel value="Número" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column colspan="1">
+													<p:outputLabel value="Gestión" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column colspan="5">
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column colspan="1">
+													<p:selectOneMenu id="consoleseis"
+														value="#{archivoBean.tipoTramiteCombo}">
+														<f:selectItem itemLabel="IF" itemValue="IF" />
+														<f:selectItem itemLabel="SM" itemValue="SM" />
+														<f:selectItem itemLabel="SR" itemValue="SR" />
+														<f:selectItem itemLabel="SF" itemValue="SF" />
+														<f:selectItem itemLabel="CN" itemValue="CN" />
+														<f:selectItem itemLabel="CD" itemValue="CD" />
+														<f:selectItem itemLabel="ST" itemValue="ST" />
+														<f:selectItem itemLabel="LU" itemValue="LU" />
+														<f:selectItem itemLabel="SP" itemValue="SP" />
+														<f:selectItem itemLabel="OP" itemValue="OP" />
+														<f:selectItem itemLabel="BQ" itemValue="BQ" />
+													</p:selectOneMenu>
+												</p:column>
+												<p:column colspan="1">
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroSolicitud}"
+														size="12" maxlength="12"></p:inputText>
+												</p:column>
+												<p:column colspan="1">
+													<p:inputText
+														value="#{archivoBean.registroInventario.gestionSolicitud}"
+														maxlength="5" size="5" style=""></p:inputText>
+												</p:column>
+												<p:column colspan="5">
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column colspan="2">
+													<p:outputLabel value="Descripción / marca"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column colspan="6">
+													<p:inputText
+														value="#{archivoBean.registroInventario.marca}" size="120"></p:inputText>
+												</p:column>
+											</p:row>
+										</p:panelGrid>
+									</fieldset>
+								</p:column>
+							</p:panelGrid>
+						</p:row>
+					</p:panelGrid>
+					<p:panelGrid id="panelesdatosvistasiete"
+						style="width: 100%; height: 90%">
+						<p:row>
+							<p:panelGrid id="datossiete" rendered="#{archivoBean.panelsiete}"
+								styleClass="quitarBordes">
+								<p:column colspan="8">
+									<fieldset style="width: 100%">
+										<legend>
+											<p:outputLabel value="AREA DE CONTENIDO"
+												styleClass="labelImportante" />
+										</legend>
+										<p:panelGrid>
+											<p:row>
+												<p:column>
+													<p:outputLabel value="Código trámite"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Número" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Gestión" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="No.registro"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Serie registro"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="No. resolución."
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column colspan="2">
+													<p:outputLabel value="Gestión resolución."
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column>
+													<p:selectOneMenu id="consolesiete"
+														value="#{archivoBean.tipoTramiteCombo}">
+														<f:selectItem itemLabel="SM" itemValue="SM" />
+														<f:selectItem itemLabel="SR" itemValue="SR" />
+														<f:selectItem itemLabel="SF" itemValue="SF" />
+														<f:selectItem itemLabel="CN" itemValue="CN" />
+														<f:selectItem itemLabel="CD" itemValue="CD" />
+														<f:selectItem itemLabel="ST" itemValue="ST" />
+														<f:selectItem itemLabel="LU" itemValue="LU" />
+														<f:selectItem itemLabel="SP" itemValue="SP" />
+														<f:selectItem itemLabel="OP" itemValue="OP" />
+														<f:selectItem itemLabel="BQ" itemValue="BQ" />
+													</p:selectOneMenu>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroSolicitud}"
+														size="12" maxlength="12"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.gestionSolicitud}"
+														maxlength="5" size="5"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroRegistro}"
+														size="12"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.serieRegistro}"
+														size="5"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroResolucion}"
+														size="12"></p:inputText>
+												</p:column>
+												<p:column colspan="2">
+													<p:inputText
+														value="#{archivoBean.registroInventario.gestionResolucion}"
+														size="5"></p:inputText>
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column colspan="2">
+													<p:outputLabel value="Marca / signo distintivo"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column colspan="6">
+													<p:inputText
+														value="#{archivoBean.registroInventario.marca}" size="120"></p:inputText>
+												</p:column>
+											</p:row>
+										</p:panelGrid>
+									</fieldset>
+								</p:column>
+							</p:panelGrid>
+						</p:row>
+
+					</p:panelGrid>
+					<p:panelGrid id="panelesdatosvistaocho"
+						style="width: 100%; height: 90%" styleClass="quitarBordes">
+						<p:row>
+							<p:panelGrid id="datosocho" rendered="#{archivoBean.panelocho}"
+								styleClass="quitarBordes">
+
+								<p:column colspan="8">
+									<fieldset style="width: 100%">
+										<legend>
+											<p:outputLabel value="AREA DE CONTENIDO"
+												styleClass="labelImportante" />
+										</legend>
+										<p:panelGrid>
+											<p:row>
+												<p:column>
+													<p:outputLabel value="Código tramite"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Número" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Gestión" style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="No. public."
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="No. registro"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column>
+													<p:outputLabel value="Serie registro"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column>
+													<p:selectOneMenu id="consoleocho"
+														value="#{archivoBean.tipoTramiteCombo}">
+														<f:selectItem itemLabel="DA" itemValue="DA" />
+														<f:selectItem itemLabel="SM" itemValue="SM" />
+														<f:selectItem itemLabel="SR" itemValue="SR" />
+														<f:selectItem itemLabel="SF" itemValue="SF" />
+														<f:selectItem itemLabel="CN" itemValue="CN" />
+														<f:selectItem itemLabel="CD" itemValue="CD" />
+														<f:selectItem itemLabel="ST" itemValue="ST" />
+														<f:selectItem itemLabel="LU" itemValue="LU" />
+														<f:selectItem itemLabel="SP" itemValue="SP" />
+														<f:selectItem itemLabel="OP" itemValue="OP" />
+														<f:selectItem itemLabel="BQ" itemValue="BQ" />
+													</p:selectOneMenu>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroSolicitud}"
+														size="12" maxlength="12"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.gestionSolicitud}"
+														maxlength="5" size="5" style=""></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroPublicacion}"
+														size="12"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.numeroRegistro}"
+														size="12"></p:inputText>
+												</p:column>
+												<p:column>
+													<p:inputText
+														value="#{archivoBean.registroInventario.serieRegistro}"
+														size="5"></p:inputText>
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column colspan="2">
+													<p:outputLabel value="Descripción / marca"
+														style="font-weight: bold"></p:outputLabel>
+												</p:column>
+												<p:column colspan="6">
+													<p:inputText
+														value="#{archivoBean.registroInventario.marca}" size="120"></p:inputText>
+												</p:column>
+											</p:row>
+										</p:panelGrid>
+									</fieldset>
+								</p:column>
+							</p:panelGrid>
+						</p:row>
+
+					</p:panelGrid>
+					<p:panelGrid style="width: 100%; height: 90%; text-align: center"
+						styleClass="quitarBordes">
+						<p:row>
+							<p:column style="padding-left: 100%">
+								<p:commandButton id="adicionardeposito" value="Guardar"
+									icon="ui-icon-disk"
+									actionListener="#{archivoBean.accion_guardaArchivo()}"
+									update=":form,:form:message">
+								</p:commandButton>
+								<p:spacer width="30px"/>
+								
+								<p:commandButton id="modificadeposito" value="Modificar"
+									icon="ui-icon-pencil"
+									actionListener="#{archivoBean.accion_modificaArchivo()}"
+									update=":form,:form:message">
+								</p:commandButton>
+								<p:spacer width="30px"/>
+
+								<p:commandButton id="btnlimpiar" value="Limpiar"
+									icon="ui-icon-document"
+									actionListener="#{archivoBean.accion_limpiarDatos()}"
+									update=":form">
+									<f:ajax execute="@this" event="click" />
+								</p:commandButton>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</p:outputPanel>
+				<p:separator />
+				<p:panelGrid>
+					<p:row>
+						<p:column colspan="5">
+							<fieldset>
+								<legend>
+									<p:outputLabel value="DATOS ARCHIVO"
+										styleClass="labelImportante" />
+								</legend>
+								<p:panelGrid columns="3" style="quitarBordes">
+									<p:outputLabel value="Fecha registro:"
+										style="font-weight: bold" />
+									<p:calendar id="fechaBuscar" locale="es"
+										value="#{archivoBean.fechaBuscar}" navigator="true"
+										pattern="dd/MM/yyyy" mask="true" size="12" />
+									<p:commandButton id="btnbuscar" icon="ui-icon-search"
+										actionListener="#{archivoBean.listaPorFechas()}"
+										update=":form" value="Buscar por fecha">
+										<f:ajax execute="@this" event="click" />
+									</p:commandButton>
+								</p:panelGrid>
+								<p:dataTable id="Archivos" var="archivo"
+									value="#{archivoBean.lstArchivo}">
+
+									<p:column headerText="Sub Fondo" width="12%"
+										style="text-align:center">
+										<h:outputText style="text-align:left"
+											value="#{archivoBean.devuelveDescripcionSubFondo(archivo)}" />
+									</p:column>
+									<p:column headerText="Seccion" width="12%"
+										style="text-align:center">
+										<h:outputText style="text-align:left"
+											value="#{archivoBean.devuelveDescripcionSeccion(archivo)}" />
+									</p:column>
+									<p:column headerText="Serie" width="12%"
+										style="text-align:center">
+										<h:outputText style="text-align:left"
+											value="#{archivoBean.devuelveDescripcionSerie(archivo)}" />
+									</p:column>
+									<p:column headerText="Sala" width="8%">
+										<h:outputText value="#{archivo.sala}" />
+									</p:column>
+									<p:column headerText="Estante" width="8%">
+										<h:outputText value="#{archivo.cuerpo}" />
+									</p:column>
+									<p:column headerText="Balda" width="8%">
+										<h:outputText value="#{archivo.balda}" />
+									</p:column>
+									<p:column headerText="Solicitud" width="15%">
+										<h:outputText value="#{archivoBean.devuelveSm(archivo)}" />
+									</p:column>
+									<p:column headerText="N° Public." width="12%">
+										<h:outputText
+											value="#{archivoBean.devuelvePublicacion(archivo)}" />
+									</p:column>
+									<p:column headerText="N° Registro" width="13%">
+										<h:outputText value="#{archivoBean.devuelveRegistro(archivo)}" />
+									</p:column>
+									<p:column headerText="N° Resol." width="12%">
+										<h:outputText
+											value="#{archivoBean.devuelveResolucion(archivo)}" />
+									</p:column>
+									<p:column headerText="Marca/Descripción" width="24%">
+										<h:outputText style="text-align:left" value="#{archivo.marca}" />
+									</p:column>
+									<p:column headerText="Observación" width="24%">
+										<h:outputText style="text-align:left"
+											value="#{archivo.observacion}" />
+									</p:column>
+									<p:column headerText="Editar" style="text-align: center"
+										rendered="#{archivoBean.tieneAcceso}" width="6%">
+										<p:commandButton id="btnEditarArchivo" update=":form"
+											icon="ui-icon-pencil"
+											actionListener="#{archivoBean.cargaValoresModificar(archivo)}"
+											onclick="PF('editarArchivo').show()">
+										</p:commandButton>
+									</p:column>
+									<p:column headerText="Eliminar" style="text-align: center"
+										rendered="#{archivoBean.tieneAcceso}" width="6%">
+										<p:commandButton icon="ui-icon-trash"
+											actionListener="#{archivoBean.cargaValoresEliminar(archivo)}"
+											update=":form">
+											<p:confirm header="Confirmar"
+												message="¿Está seguro de eliminar?" icon="ui-icon-alert" />
+										</p:commandButton>
+										<p:confirmDialog global="true" showEffect="fade"
+											hideEffect="fade" width="15%">
+											<p:commandButton value="Sí" type="button"
+												styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+											<p:commandButton value="No" type="button"
+												styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+										</p:confirmDialog>
+									</p:column>
+								</p:dataTable>
+							</fieldset>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:si.componentes="http://java.sun.com/jsf/composite/si.componentes"
+                 template="./../WEB-INF/facelets/templates/Template.xhtml">
+
+
+    <ui:define name="content">
+
+        <div align="center" style="padding:1em 2.2em; background: rgb(230,230,230); /* Fondo */
+             border-radius: 6px;  /* Bordes redondos */
+             box-shadow: inset 3px 3px 3px rgba(255,255,255,.7), inset -2px -2px 3px rgba(0,0,0,.1), 2px 2px 10px rgba(0,0,0,.1);">
+            <h:form id="form1">
+                <p:growl id="growl" showDetail="true" sticky="true" />
+                <div align="center">
+                    <p:panel header="Ingrese usuario y contraseña" style="width: 400px;">
+                        <p:panelGrid columns="2"  styleClass="quitarBordes">
+                            <p:outputLabel value="Usuario:"/>
+                            <p:inputText  value="#{usuarioLogeadoController.login}" label="Login" />
+                            <p:outputLabel value="Contraseña:"/>
+                            <p:password value="#{usuarioLogeadoController.pass}"  label="Password" />
+
+
+                        </p:panelGrid>
+                        <p:panelGrid  id="seleccion" columns="2"  styleClass="quitarBordes" rendered="#{usuarioLogeadoController.pintaCombo}">
+                            <p:outputLabel for="roles" value="Roles:"  />
+                            <p:selectOneMenu  style="width: 200px" value="#{usuarioLogeadoController.idEtapa}" id="roles">                                                                                                                                           
+                                <f:selectItems value="#{usuarioLogeadoController.lisEtapas}" 
+                                               var="etapa"  
+                                               itemLabel="#{etapa.descripcion}" 
+                                               itemValue="#{etapa.idEtapa}" />   
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                    </p:panel>
+                    <p:commandButton icon="ui-icon-circle-arrow-e" ajax="false"  value="Ingresar" action="#{usuarioLogeadoController.ingresa()}" update="growl,:form1"/>
+                </div>
+                <p:spacer height="500"></p:spacer>
+            </h:form> 
+        </div>
+    </ui:define>
+</ui:composition>
+
+
+
+
